@@ -1,6 +1,7 @@
 ﻿// FINISHED WORK ANY POLINDROM
 
 using System;
+using System.Linq;
 
 namespace CodeSignalTask
 {
@@ -8,49 +9,68 @@ namespace CodeSignalTask
     {
         static void Main(string[] args)
         {
-            string not_Polindrom_String = "AAAASSDDDFFFF";
-            Console.WriteLine(AnyPolindrom(not_Polindrom_String));
+            string not_Polindrom_String = "aab";
+            Console.WriteLine(palindromeRearranging(not_Polindrom_String));
             Console.ReadKey();
         }
 
-        public static bool CharChecker(string str)
+        static bool palindromeRearranging(string inputString)
         {
-            char[] someArray = str.ToCharArray();
-            char previousLetter = ' ';
-            int letterCount = 0, oddCount = 0; ;
+            if (IsPolindrom(inputString))
+            {
+                return true;
+            }
+            else if (CharChecker(inputString))
+                return true;
+
+            return false;
+        }
+        static bool CharChecker(string inputString)
+        {
+            char[] someArray = inputString.ToCharArray();
+            char previousLetter = someArray[0];
+            int letterCount = 0, oddCount = 0;
             char letter = someArray[0];
             for (int j = 0; j < someArray.Length; j++)
             {
-                if(previousLetter != someArray[j])
+                letter = someArray[j];
+                if (previousLetter != someArray[j] || previousLetter == someArray[0])
                 {
-                    letter = someArray[j];
                     for (int i = 0; i < someArray.Length; i++)
                     {
                         if (letter == someArray[i])
                             letterCount++;
                     }
-                    if (letterCount % 2 > 0)
+                    if (letterCount % 2 != 0)
                         oddCount++;
-                    else
+
                         previousLetter = letter;
+
                     if (oddCount > 1)
                         return false;
                 }
+                letterCount = 0;
             }
             return true;
         }
 
-        public static bool AnyPolindrom(string someString)
+        static bool IsPolindrom(string inputString)
         {
-            if (someString.IsPolindrom())
-            {
+            if (inputString == ReverseString(inputString))
                 return true;
-            }
             else
-                if (CharChecker(someString))
-                return true;
+                return false;
+        }
 
-            return false;
+
+        static string ReverseString(string inputString)
+        {
+            string s = null;
+            foreach (var item in inputString.Reverse())
+            {
+                s += item;
+            }
+            return s;
         }
     }
 }
